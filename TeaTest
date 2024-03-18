@@ -1,0 +1,31 @@
+# https://tea.xyz/what-is-this-file
+---
+version: 1.0.0
+codeOwners:
+  - '0x8EBfA499D8b0DC6FC462DFC0aB59Bf876c1F0589'
+quorum: 1
+class Block:
+    def __init__(self, previous_block_hash, transaction_list):
+        self.previous_block_hash = previous_block_hash
+        self.transaction_list = transaction_list
+
+class TeaCoin:
+    def __init__(self):
+        self.chain = []
+        self.current_transactions = []
+
+    def new_block(self, previous_hash):
+        block = Block(previous_hash, self.current_transactions)
+        self.current_transactions = []
+        self.chain.append(block)
+
+    def new_transaction(self, sender, recipient, amount):
+        self.current_transactions.append({
+            'sender': sender,
+            'recipient': recipient,
+            'amount': amount,
+        })
+
+    @property
+    def last_block(self):
+        return self.chain[-1] if self.chain else None
